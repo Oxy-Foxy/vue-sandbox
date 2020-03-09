@@ -1,32 +1,134 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="product">
+      <div class="product-image">
+        <img v-bind:src="image">
+        <img src="./assets/vmSocks-green-onWhite.jpg">
+      </div>
+      <div class="product-info">
+        <h1>{{product}}</h1>
+        <p>{{description}}</p>
+      </div>
     </div>
-    <router-view />
   </div>
 </template>
 
-<style lang="scss">
+<script>
+import greenSocks from '@/assets/vmSocks-green-onWhite.jpg'
+
+export default {
+  name: "App",
+  data() {
+    return {
+      product: "Socks",
+      description: "A pair of warm, fuzzy socks",
+      image:greenSocks,
+      children: "" // without this property - warning in console
+    };
+  },
+  mounted() {
+    console.log(this);
+  }
+};
+</script>
+
+<style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  /* margin-top: 60px; */
 }
 
-#nav {
-  padding: 30px;
+body {
+  font-family: tahoma;
+  color: #282828;
+  margin: 0px;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.nav-bar {
+  background: linear-gradient(-90deg, #84CF6A, #16C0B0);
+  height: 60px;
+  margin-bottom: 15px;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.product {
+  display: flex;
+  flex-flow: wrap;
+  padding: 1rem;
+}
+
+img {
+  border: 1px solid #d8d8d8;
+  width: 70%;
+  margin: 40px;
+  box-shadow: 0px 0.5px 1px #d8d8d8;
+}
+
+.product-image {
+  width: 80%;
+}
+
+.product-image,
+.product-info {
+  margin-top: 10px;
+  width: 50%;
+}
+
+.color-box {
+  width: 40px;
+  height: 40px;
+  margin-top: 5px;
+}
+
+.cart {
+  margin-right: 25px;
+  float: right;
+  border: 1px solid #d8d8d8;
+  padding: 5px 20px;
+}
+
+button {
+  margin-top: 30px;
+  border: none;
+  background-color: #1E95EA;
+  color: white;
+  height: 40px;
+  width: 100px;
+  font-size: 14px;
+}
+
+.disabledButton {
+  background-color: #d8d8d8;
+}
+
+.review-form {
+  width: 400px;
+  padding: 20px;
+  margin: 40px;
+  border: 1px solid #d8d8d8;
+}
+
+input {
+  width: 100%;
+  height: 25px;
+  margin-bottom: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 60px;
+}
+
+.tab {
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.activeTab {
+  color: #16C0B0;
+  text-decoration: underline;
 }
 </style>
