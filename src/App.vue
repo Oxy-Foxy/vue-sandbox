@@ -8,6 +8,11 @@
       @add-to-cart="increaseCart"
       @remove-from-cart="decreaseCart"
     ></product>
+    <product
+      :premium="premium"
+      @add-to-cart="increaseCart"
+      @remove-from-cart="decreaseCart"
+    ></product>
   </div>
 </template>
 

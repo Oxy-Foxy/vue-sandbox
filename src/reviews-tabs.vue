@@ -27,26 +27,27 @@
   </div>
 </template>
 <script>
-  import productReview from './product-review';
+import productReview from './product-review';
 
-  export default {
-    name: 'reviews-tabs',
-    components: { productReview },
-    props: {
-      reviews: {
-        type: Array,
-      },
+export default {
+  name: 'reviews-tabs',
+  components: { productReview },
+  props: {
+    reviews: {
+      type: Array,
     },
-    data() {
-      return {
-        tabs: ['Reviews', 'Make a review'],
-        activeTab: 'Reviews',
-      };
+  },
+  data() {
+    return {
+      tabs: ['Reviews', 'Make a review'],
+      activeTab: 'Reviews',
+    };
+  },
+  methods: {
+    emitSubmitEvent(review) {
+      this.activeTab = 'Reviews';
+      this.$emit('review-submitted', review);
     },
-    methods: {
-      emitSubmitEvent(review) {
-        this.$emit('review-submitted', review);
-      },
-    },
-  };
+  },
+};
 </script>

@@ -69,14 +69,18 @@
 <script>
 // import { eventBus } from '@/main.js';
 // console.log('bus', eventBus);
+let def = {
+  rating: 5,
+  recomend: 'Recomend',
+};
 export default {
   name: 'product-review',
   data() {
     return {
       name: null,
       review: null,
-      rating: null,
-      recomend: null,
+      rating: def.rating,
+      recomend: def.recomend,
       errors: [],
     };
   },
@@ -84,7 +88,7 @@ export default {
     onSubmit() {
       this.errors = [];
       // TODO: rewrite validation - make data object with fields, and write loop
-      if (this.name && this.review && this.rating && this.recomend) {
+      if (this.name && this.review) {
         let productReview = {
           name: this.name,
           review: this.review,
@@ -96,13 +100,11 @@ export default {
 
         this.name = null;
         this.review = null;
-        this.rating = null;
-        this.recomend = null;
+        this.rating = def.rating;
+        this.recomend = def.recomend;
       } else {
         if (!this.name) this.errors.push('Name required');
         if (!this.review) this.errors.push('Review required');
-        if (!this.rating) this.errors.push('Rating required');
-        if (!this.recomend) this.errors.push('Recomendation required');
       }
     },
   },
