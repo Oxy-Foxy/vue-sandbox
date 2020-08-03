@@ -64,16 +64,18 @@
         >
           Add to Cart
         </button>
-        <!-- <button v-on:click="removeFromCart">Remove From Cart</button> -->
-      </div>
-      <div class="cart">
-        <p>Cart {{ cart }}</p>
+        <button v-on:click="removeFromCart">Remove From Cart</button>
       </div>
     </div>
+    <reviews-tabs
+      :reviews="reviews"
+      @review-submitted="addReview"
+    ></reviews-tabs>
   </div>
 </template>
 <script>
   import productDetails from './product-details';
+  import reviewsTabs from './reviews-tabs';
   import greenSocks from '@/assets/vmSocks-green-onWhite.jpg';
   import blueSocks from '@/assets/vmSocks-blue-onWhite.jpg';
 
@@ -85,7 +87,7 @@
         required: true,
       },
     },
-    components: { productDetails },
+    components: { productDetails, reviewsTabs },
     data() {
       return {
         brand: 'Vue Mastery',
@@ -126,6 +128,7 @@
         link:
           'https://www.vuemastery.com/courses/intro-to-vue-js/attribute-binding',
         children: '', // without this property - warning in console
+        reviews: [],
       };
     },
     mounted() {
@@ -134,13 +137,17 @@
     methods: {
       addToCart() {
         this.variants[this.selectedImage].inventory[this.selectedSize] -= 1;
-        // if (this.cart >= this.available) return;
-        this.cart += 1;
+
+        this.$emit('add-to-cart', this.variants[this.selectedImage].id);
       },
-      // removeFromCart() {
-      //   if (this.cart <= 0) return;
-      //   this.cart -= 1;
-      // },
+      removeFromCart() {
+        if (this.variants[this.selectedImage].inventory[this.selectedSize] <= 0)
+          return;
+        this.variants[this.selectedImage].inventory[this.selectedSize] -= 1;
+
+        this.$emit('remove-from-cart', this.variants[this.selectedImage].id);
+      },
+
       updateProduct(index) {
         this.selectedImage = index;
       },
@@ -149,6 +156,9 @@
           return (size.checked = size.id == id ? true : null);
         });
         this.selectedSize = id;
+      },
+      addReview(review) {
+        this.reviews.push(review);
       },
     },
     computed: {
