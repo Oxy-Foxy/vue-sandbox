@@ -1,22 +1,22 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <p>
+    <div>
       Please correct this error(s):
       <ul>
         <li v-for="(error, i) in errors" :key="i">
-          {{error}}
+          {{ error }}
         </li>
       </ul>
-    </p>
+    </div>
     <p>
       <label>
-        <p>Name:</p>
+        <span>Name:</span>
         <input type="text" v-model="name" />
       </label>
     </p>
     <p>
       <label>
-        <p>Review:</p>
+        <span>Review:</span>
         <textarea
           name="review"
           id=""
@@ -29,7 +29,7 @@
 
     <p>
       <label>
-        <p>Rating:</p>
+        <span>Rating:</span>
         <select v-model.number="rating">
           <option value="1">1</option>
           <option value="2">2</option>
@@ -44,11 +44,21 @@
     </h3>
     <p>
       <label>
-        <input name="recomend" type="radio" value="Recomend" v-model="recomend">
+        <input
+          name="recomend"
+          type="radio"
+          value="Recomend"
+          v-model="recomend"
+        />
         <span>Y</span>
       </label>
       <label>
-        <input name="recomend" type="radio" value="Not recomend" v-model="recomend">
+        <input
+          name="recomend"
+          type="radio"
+          value="Not recomend"
+          v-model="recomend"
+        />
         <span>N</span>
       </label>
     </p>
@@ -57,43 +67,44 @@
 </template>
 
 <script>
-  export default {
-    name: 'product-review',
-    data() {
-      return {
-        name: null,
-        review: null,
-        rating: null,
-        recomend: null,
-        errors: []
-      };
+// import { eventBus } from '@/main.js';
+// console.log('bus', eventBus);
+export default {
+  name: 'product-review',
+  data() {
+    return {
+      name: null,
+      review: null,
+      rating: null,
+      recomend: null,
+      errors: [],
+    };
+  },
+  methods: {
+    onSubmit() {
+      this.errors = [];
+      // TODO: rewrite validation - make data object with fields, and write loop
+      if (this.name && this.review && this.rating && this.recomend) {
+        let productReview = {
+          name: this.name,
+          review: this.review,
+          rating: this.rating,
+          recomend: this.recomend,
+        };
+
+        this.$emit('review-submitted', productReview);
+
+        this.name = null;
+        this.review = null;
+        this.rating = null;
+        this.recomend = null;
+      } else {
+        if (!this.name) this.errors.push('Name required');
+        if (!this.review) this.errors.push('Review required');
+        if (!this.rating) this.errors.push('Rating required');
+        if (!this.recomend) this.errors.push('Recomendation required');
+      }
     },
-    methods: {
-      onSubmit() {
-        this.errors = []
-        // TODO: rewrite validation - make data object with fields, and write loop
-        if(this.name && this.review && this.rating && this.recomend){
-          let productReview = {
-            name: this.name,
-            review: this.review,
-            rating: this.rating,
-            recomend: this.recomend,
-
-          };
-
-          this.$emit('review-submitted', productReview);
-
-          this.name = null;
-          this.review = null;
-          this.rating = null;
-          this.recomend = null
-        } else {
-          if(!this.name) this.errors.push('Name required')
-          if(!this.review) this.errors.push('Review required')
-          if(!this.rating) this.errors.push('Rating required')
-          if(!this.recomend) this.errors.push('Recomendation required')
-        }
-      },
-    },
-  };
+  },
+};
 </script>
